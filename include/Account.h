@@ -2,13 +2,15 @@
 #define ACCOUNT_H
 
 #include <string>
+#include "Currency.h"
+#include "AccountStatus.h"
 
 class Account {
 protected:
     std::string iban;
     double balance;
-    std::string currency;
-    std::string creationDate;
+    Currency currency;
+    AccountStatus status;
     bool active;
 
 public:

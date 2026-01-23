@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "Currency.h"
 
 class Client;
 class Account;

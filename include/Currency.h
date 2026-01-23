@@ -1,10 +1,33 @@
+#ifndef CURRENCY_H
+#define CURRENCY_H
+
 #include <string>
 
-// Zmień "enum class" na "struct"
 enum class Currency {
     PLN,
-    USD,
     EUR,
+    USD,
     GBP,
     CHF
 };
+
+inline std::string currencyToString(Currency c) {
+    switch (c) {
+        case Currency::PLN: return "PLN";
+        case Currency::EUR: return "EUR";
+        case Currency::USD: return "USD";
+        case Currency::GBP: return "GBP";
+        case Currency::CHF: return "CHF";
+        default: return "PLN";
+    }
+}
+
+inline Currency stringToCurrency(const std::string& s) {
+    if (s == "EUR") return Currency::EUR;
+    if (s == "USD") return Currency::USD;
+    if (s == "GBP") return Currency::GBP;
+    if (s == "CHF") return Currency::CHF;
+    return Currency::PLN;
+}
+
+#endif

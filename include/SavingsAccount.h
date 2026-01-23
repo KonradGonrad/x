@@ -1,23 +1,27 @@
-#ifndef SAVINGSACCOUNT_H
-#define SAVINGSACCOUNT_H
+#ifndef INDIVIDUALCLIENT_H
+#define INDIVIDUALCLIENT_H
 
-#include "Account.h"
+#include "Client.h"
 
-class SavingsAccount : public Account {
+class IndividualClient : public Client {
 private:
-    double interestRate;
+    std::string firstName;
+    std::string lastName;
+    std::string pesel;
 
 public:
-    SavingsAccount(const std::string& iban, double initialBalance,
-                   const std::string& currency, const std::string& creationDate,
-                   double interestRate, int withdrawalLimit = 3);
-    ~SavingsAccount() override;
+    IndividualClient(int internalId, Address* address,
+                     const std::string& phoneNumber, const std::string& email,
+                     const std::string& firstName, const std::string& lastName,
+                     const std::string& pesel);
+    ~IndividualClient() override;
 
-    // Override abstract methods
-    double calculateMonthlyFees() const override;
-    
-    // Savings account specific methods
-    void capitalizeInterest();
+    std::string getFirstName() const;
+    std::string getLastName() const;
+    std::string getPesel() const;
+
+    std::string getTaxIdentifier() const override;
+    std::string toString() const override;
 };
 
-#endif // SAVINGSACCOUNT_H
+#endif

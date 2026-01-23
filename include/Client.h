@@ -5,6 +5,7 @@
 #include <vector>
 #include "Address.h"
 
+class Address;
 class Account;  // Forward declaration
 
 class Client {

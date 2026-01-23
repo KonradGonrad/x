@@ -18,12 +18,20 @@ public:
             const std::string& currency, const std::string& creationDate);
     virtual ~Account();
 
+    std::string getIban() const;
+    double getBalance() const;
+    Currency getCurrency() const;
+    AccountStatus getStatus() const;
+    std::string getCreationDate() const;
+
+    void setStatus(AccountStatus status);
     // Operations
     virtual void deposit(double amount);
     virtual void withdraw(double amount);
 
     // Abstract methods
     virtual double calculateMonthlyFees() const = 0;
+    virtual std::string toString() const = 0;
 };
 
 #endif // ACCOUNT_H

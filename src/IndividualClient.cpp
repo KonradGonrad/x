@@ -23,8 +23,9 @@ std::string IndividualClient::getTaxIdentifier() const {
 
 std::string IndividualClient::toString() const {
     std::ostringstream oss;
-    oss << "IndividualClient[id=" << getInternalId()
+    oss << "IndividualClient[id=" << internalId
         << ", name=" << firstName << " " << lastName
-        << ", pesel=" << pesel << "]";
+        << ", pesel=" << pesel
+        << ", accounts=" << accounts.size() << "]";
     return oss.str();
 }

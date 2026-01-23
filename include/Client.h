@@ -3,34 +3,37 @@
 
 #include <string>
 #include <vector>
-#include "Address.h"
 
 class Address;
-class Account;  // Forward declaration
+class Account;
 
 class Client {
 protected:
-    std::string email;
-    std::string phoneNumber;
-    int clientId;
-    std::string name;
-
+    int internalId;
     Address* address;
+    std::string phoneNumber;
+    std::string email;
     std::vector<Account*> accounts;
 
 public:
-    Client(const int& clientId, const std::string& name, Address* address);
+    Client(int internalId, Address* address, const std::string& phoneNumber,
+           const std::string& email);
     virtual ~Client();
 
-    // Account management
+    int getInternalId() const;
+    Address* getAddress() const;
+    std::string getPhoneNumber() const;
+    std::string getEmail() const;
+    const std::vector<Account*>& getAccounts() const;
+
+    void setPhoneNumber(const std::string& phone);
+    void setEmail(const std::string& email);
+
     void addAccount(Account* account);
-    bool removeAccount(const std::string& iban);
     Account* findAccount(const std::string& iban) const;
 
-    // Abstract methods
-    virtual std::string getClientType() const = 0;
-    virtual double calculateTotalFees() const = 0;
+    virtual std::string getTaxIdentifier() const = 0;
     virtual std::string toString() const = 0;
 };
 
-#endif // CLIENT_H
+#endif

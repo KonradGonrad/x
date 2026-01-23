@@ -1,5 +1,7 @@
 enum class TransactionType {
     DEPOSIT,
     WITHDRAWAL,
-    TRANSFER
+    TRANSFER,
+    STOCK_PURCHASE,       // NOWE
+    CURRENCY_EXCHANGE     // NOWE
 };

@@ -18,14 +18,14 @@ void SavingsAccount::setInterestRate(double rate) {
 }
 
 void SavingsAccount::capitalizeInterest() {
-    if (getStatus() == AccountStatus::ACTIVE && getBalance() > 0) {
-        double interest = getBalance() * (interestRate / 12.0);
-        deposit(interest);
+    if (status == AccountStatus::ACTIVE && balance > 0) {
+        double interest = balance * (interestRate / 12.0);
+        balance += interest;
     }
 }
 
 double SavingsAccount::calculateMonthlyFees() const {
-    if (getBalance() < 1000.0) {
+    if (balance < 1000.0) {
         return 5.0;
     }
     return 0.0;
@@ -33,8 +33,8 @@ double SavingsAccount::calculateMonthlyFees() const {
 
 std::string SavingsAccount::toString() const {
     std::ostringstream oss;
-    oss << "SavingsAccount[iban=" << getIban()
-        << ", balance=" << getBalance()
+    oss << "SavingsAccount[iban=" << iban
+        << ", balance=" << balance
         << ", rate=" << (interestRate * 100) << "%]";
     return oss.str();
 }

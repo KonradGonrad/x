@@ -5,24 +5,21 @@
 
 class CurrencyAccount : public Account {
 private:
-    std::string baseCurrency;
-    double exchangeRateToBase;
-
     double spread;  // e.g., 0.02 for 2% spread
 
 public:
     CurrencyAccount(const std::string& iban, double initialBalance,
-                    const std::string& currency, const std::string& creationDate,
-                    const std::string& baseCurrency = "PLN");
+                    Currency currency, const std::string& creationDate,
+                    double spread = 0.005);
     ~CurrencyAccount() override;
 
     // Currency operations
-    double convertToBase() const;
-    double convertFromBase(double baseAmount) const;
-
+    double getSpread() const;
+    void setSpread(double spread);
+    void updateBalanceAfterExchange(double amount);
     // Override abstract methods
     double calculateMonthlyFees() const override;
-    void updateBalanceAfterExchange(double amount);
+    std::string toString() const override;
 };
 
 #endif // CURRENCYACCOUNT_H

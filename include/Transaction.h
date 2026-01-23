@@ -8,17 +8,24 @@ class Account;  // Forward declaration
 
 
 class Transaction {
-private:
-    int id;
-    DateTime date;
+protected:  // ZMIANA: private -> protected
+    long id;
+    std::time_t date;
     double amount;
+    TransactionType type;
+
 public:
-    Transaction(const std::string& transactionId, double amount,
-                const std::string& description);
+    Transaction(long id, double amount, TransactionType type);
     virtual ~Transaction();
 
-    // Abstract methods
+    long getId() const;
+    std::time_t getDate() const;
+    double getAmount() const;
+    TransactionType getType() const;
+    std::string getTypeString() const;
+
     virtual bool execute() = 0;
+    virtual std::string toString() const = 0;
 };
 
 #endif // TRANSACTION_H

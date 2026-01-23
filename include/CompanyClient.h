@@ -13,16 +13,18 @@ private:
 
 
 public:
-    CompanyClient(const int& clientId, const std::string& name,
-                  Address* address, const std::string& nip,
-                  const std::string& regon, const std::string& companyName,
-                  const std::string& krs);
+    CompanyClient(int internalId, Address* address,
+                  const std::string& phoneNumber, const std::string& email,
+                  const std::string& companyName, const std::string& nip,
+                  const std::string& regon, const std::string& krs);
     ~CompanyClient() override;
 
+    std::string getCompanyName() const;
+    std::string getNip() const;
+    std::string getRegon() const;
+    std::string getKrs() const;
 
-    // Override abstract methods
-    std::string getClientType() const override;
-    double calculateTotalFees() const override;
+    std::string getTaxIdentifier() const override;
     std::string toString() const override;
 };
 

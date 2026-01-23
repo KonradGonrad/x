@@ -2,18 +2,9 @@
 #define TRANSACTION_H
 
 #include <string>
-#include <ctime>
+#include "DateTime.h"
 
 class Account;  // Forward declaration
-
-struct DateTime
-{
-    int rok;
-    int miesiac;
-    int dzien;
-    int godzina;
-    int minuta;
-};
 
 
 class Transaction {
@@ -21,7 +12,6 @@ private:
     int id;
     DateTime date;
     double amount;
-    DateTime date;
 public:
     Transaction(const std::string& transactionId, double amount,
                 const std::string& description);

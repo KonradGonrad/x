@@ -11,7 +11,7 @@ protected:
     double balance;
     Currency currency;
     AccountStatus status;
-    bool active;
+    std::string creationDate;
 
 public:
     Account(const std::string& iban, double initialBalance,
@@ -19,8 +19,8 @@ public:
     virtual ~Account();
 
     // Operations
-    virtual bool deposit(double amount);
-    virtual bool withdraw(double amount);
+    virtual void deposit(double amount);
+    virtual void withdraw(double amount);
 
     // Abstract methods
     virtual double calculateMonthlyFees() const = 0;

@@ -11,15 +11,13 @@ private:
     Account* receiver;
 
 public:
-     Transfer(long id, double amount, Account* sender, Account* receiver);
+    Transfer(const std::string& transactionId, double amount,
+             const std::string& description,
+             Account* sender, Account* receiver);
     ~Transfer() override;
-
-    Account* getSender() const;
-    Account* getReceiver() const;
 
     // Override abstract methods
     bool execute() override;
-    std::string toString() const override;
 };
 
 #endif // TRANSFER_H

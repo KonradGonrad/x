@@ -3,29 +3,24 @@
 
 #include <string>
 #include "DateTime.h"
+#include "TransactionType.h"
 
 class Account;  // Forward declaration
 
 
 class Transaction {
-protected:  // ZMIANA: private -> protected
-    long id;
-    std::time_t date;
+private:
+    int id;
+    DateTime date;
     double amount;
     TransactionType type;
-
 public:
-    Transaction(long id, double amount, TransactionType type);
+    Transaction(const std::string& transactionId, double amount,
+                const std::string& description);
     virtual ~Transaction();
 
-    long getId() const;
-    std::time_t getDate() const;
-    double getAmount() const;
-    TransactionType getType() const;
-    std::string getTypeString() const;
-
+    // Abstract methods
     virtual bool execute() = 0;
-    virtual std::string toString() const = 0;
 };
 
 #endif // TRANSACTION_H

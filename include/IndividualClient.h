@@ -2,6 +2,7 @@
 #define INDIVIDUALCLIENT_H
 
 #include "Client.h"
+#include <string>
 
 class IndividualClient : public Client {
 private:
@@ -10,18 +11,13 @@ private:
     std::string pesel;
 
 public:
-    IndividualClient(int internalId, Address* address,
-                     const std::string& phoneNumber, const std::string& email,
+    IndividualClient(const int& internalId, Address* address,
                      const std::string& firstName, const std::string& lastName,
                      const std::string& pesel);
     ~IndividualClient() override;
 
-    std::string getFirstName() const;
-    std::string getLastName() const;
-    std::string getPesel() const;
-
+    // Override abstract method
     std::string getTaxIdentifier() const override;
-    std::string toString() const override;
 };
 
-#endif
+#endif // INDIVIDUALCLIENT_H

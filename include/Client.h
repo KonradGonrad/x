@@ -2,34 +2,21 @@
 #define CLIENT_H
 
 #include <string>
-#include <vector>
 #include "Address.h"
-
-class Account;  // Forward declaration
 
 class Client {
 protected:
-    std::string email;
-    std::string phoneNumber;
-    int clientId;
-    std::string name;
-
+    int internalId;
     Address* address;
-    std::vector<Account*> accounts;
+    std::string phoneNumber;
+    std::string email;
 
 public:
-    Client(const int& clientId, const std::string& name, Address* address);
+    Client(const int& internalId, Address* address);
     virtual ~Client();
 
-    // Account management
-    void addAccount(Account* account);
-    bool removeAccount(const std::string& iban);
-    Account* findAccount(const std::string& iban) const;
-
-    // Abstract methods
-    virtual std::string getClientType() const = 0;
-    virtual double calculateTotalFees() const = 0;
-    virtual std::string toString() const = 0;
+    // Abstract method
+    virtual std::string getTaxIdentifier() const = 0;
 };
 
 #endif // CLIENT_H

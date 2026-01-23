@@ -3,6 +3,7 @@
 
 #include <string>
 #include "DateTime.h"
+#include "TransactionType.h"
 
 class Account;  // Forward declaration
 
@@ -12,6 +13,7 @@ private:
     int id;
     DateTime date;
     double amount;
+    TransactionType type;
 public:
     Transaction(const std::string& transactionId, double amount,
                 const std::string& description);

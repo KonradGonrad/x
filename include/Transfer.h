@@ -7,15 +7,13 @@ class Account;
 
 class Transfer : public Transaction {
 private:
-    Account* sourceAccount;
-    Account* destinationAccount;
-    std::string sourceIban;
-    std::string destinationIban;
+    Account* sender;
+    Account* receiver;
 
 public:
     Transfer(const std::string& transactionId, double amount,
              const std::string& description,
-             Account* sourceAccount, Account* destinationAccount);
+             Account* sender, Account* receiver);
     ~Transfer() override;
 
     // Override abstract methods

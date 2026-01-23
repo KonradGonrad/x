@@ -6,24 +6,19 @@
 
 class CompanyClient : public Client {
 private:
-    std::string nip;  // Polish tax ID number
-    std::string regon;  // Polish statistical number
-    std::string companyName;  // e.g., "LLC", "SA", "SP"
-    std::string krs;  // National Court Register number
-
+    std::string companyName;
+    std::string nip;
+    std::string regon;
+    std::string krs;
 
 public:
-    CompanyClient(const int& clientId, const std::string& name,
-                  Address* address, const std::string& nip,
-                  const std::string& regon, const std::string& companyName,
-                  const std::string& krs);
+    CompanyClient(const int& internalId, Address* address,
+                  const std::string& companyName, const std::string& nip,
+                  const std::string& regon, const std::string& krs);
     ~CompanyClient() override;
 
-
-    // Override abstract methods
-    std::string getClientType() const override;
-    double calculateTotalFees() const override;
-    std::string toString() const override;
+    // Override abstract method
+    std::string getTaxIdentifier() const override;
 };
 
 #endif // COMPANYCLIENT_H

@@ -6,13 +6,15 @@
 class Address {
 private:
     std::string street;
+    std::string houseNumber;
     std::string city;
-    std::string postalCode;
+    std::string zipCode;
     std::string country;
 
 public:
-    Address(const std::string& street, const std::string& city,
-            const std::string& postalCode, const std::string& country);
+    Address(const std::string& street, const std::string& houseNumber,
+            const std::string& city, const std::string& zipCode,
+            const std::string& country);
     ~Address();
 
     std::string toString() const;

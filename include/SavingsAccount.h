@@ -1,27 +1,26 @@
-#ifndef INDIVIDUALCLIENT_H
-#define INDIVIDUALCLIENT_H
+#ifndef SAVINGS_ACCOUNT_H
+#define SAVINGS_ACCOUNT_H
 
-#include "Client.h"
+#include "Account.h"
 
-class IndividualClient : public Client {
-private:
-    std::string firstName;
-    std::string lastName;
-    std::string pesel;
-
+class SavingsAccount : public Account {
 public:
-    IndividualClient(int internalId, Address* address,
-                     const std::string& phoneNumber, const std::string& email,
-                     const std::string& firstName, const std::string& lastName,
-                     const std::string& pesel);
-    ~IndividualClient() override;
+    SavingsAccount(const std::string& iban, double initialBalance,
+                   Currency currency, const std::string& creationDate,
+                   double interestRate = 0.03);
+    ~SavingsAccount() override;
 
-    std::string getFirstName() const;
-    std::string getLastName() const;
-    std::string getPesel() const;
+    double getInterestRate() const;
+    void setInterestRate(double rate);
+    void capitalizeInterest();
 
-    std::string getTaxIdentifier() const override;
+    double calculateMonthlyFees() const override;
     std::string toString() const override;
+
+private:
+    double interestRate;
 };
+
+using SavingsAccountPtr = std::shared_ptr<SavingsAccount>;
 
 #endif

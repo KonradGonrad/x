@@ -1,4 +1,5 @@
 #include "Account.h"
+#include "Exceptions.h"
 
 Account::Account(const std::string& iban, double initialBalance,
                  Currency currency, const std::string& creationDate)
@@ -16,13 +17,24 @@ std::string Account::getCreationDate() const { return creationDate; }
 void Account::setStatus(AccountStatus status) { this->status = status; }
 
 void Account::deposit(double amount) {
-    if (status == AccountStatus::ACTIVE && amount > 0) {
-        balance += amount;
+    if (status != AccountStatus::ACTIVE) {
+        throw AccountNotActiveException(iban);
     }
+    if (amount <= 0) {
+        throw ValidationException("Deposit amount must be positive");
+    }
+    balance += amount;
 }
 
 void Account::withdraw(double amount) {
-    if (status == AccountStatus::ACTIVE && amount > 0 && amount <= balance) {
-        balance -= amount;
+    if (status != AccountStatus::ACTIVE) {
+        throw AccountNotActiveException(iban);
     }
+    if (amount <= 0) {
+        throw ValidationException("Withdrawal amount must be positive");
+    }
+    if (amount > balance) {
+        throw InsufficientFundsException(amount, balance);
+    }
+    balance -= amount;
 }

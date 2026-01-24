@@ -1,40 +1,30 @@
 #include "Client.h"
-#include "Account.h"
-#include "Address.h"
+#include "Exceptions.h"
 
-Client::Client(int internalId, Address* address, const std::string& phoneNumber,
+Client::Client(int internalId, AddressPtr address, const std::string& phoneNumber,
                const std::string& email)
     : internalId(internalId), address(address), phoneNumber(phoneNumber),
       email(email) {}
 
-Client::~Client() {
-    for (Account* acc : accounts) {
-        delete acc;
-    }
-    accounts.clear();
-    delete address;
-}
+Client::~Client() {}
 
 int Client::getInternalId() const { return internalId; }
-Address* Client::getAddress() const { return address; }
+AddressPtr Client::getAddress() const { return address; }
 std::string Client::getPhoneNumber() const { return phoneNumber; }
 std::string Client::getEmail() const { return email; }
-const std::vector<Account*>& Client::getAccounts() const { return accounts; }
+const std::vector<AccountPtr>& Client::getAccounts() const { return accounts; }
 
 void Client::setPhoneNumber(const std::string& phone) { phoneNumber = phone; }
 void Client::setEmail(const std::string& email) { this->email = email; }
 
-void Client::addAccount(Account* account) {
-    if (account != nullptr) {
-        accounts.push_back(account);
-    }
+void Client::addAccount(AccountPtr account) {
+    if (!account) throw ValidationException("Cannot add null account");
+    accounts.push_back(account);
 }
 
-Account* Client::findAccount(const std::string& iban) const {
-    for (Account* acc : accounts) {
-        if (acc != nullptr && acc->getIban() == iban) {
-            return acc;
-        }
+AccountPtr Client::findAccount(const std::string& iban) const {
+    for (const auto& acc : accounts) {
+        if (acc && acc->getIban() == iban) return acc;
     }
-    return nullptr;
+    throw NotFoundException("Account with IBAN: " + iban);
 }

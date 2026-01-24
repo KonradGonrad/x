@@ -1,23 +1,29 @@
-#ifndef INDIVIDUALCLIENT_H
-#define INDIVIDUALCLIENT_H
+#ifndef INDIVIDUAL_CLIENT_H
+#define INDIVIDUAL_CLIENT_H
 
 #include "Client.h"
-#include <string>
 
 class IndividualClient : public Client {
-private:
-    std::string firstName;
-    std::string lastName;
-    std::string pesel;
-
 public:
-    IndividualClient(const int& internalId, Address* address,
+    IndividualClient(int internalId, AddressPtr address,
+                     const std::string& phoneNumber, const std::string& email,
                      const std::string& firstName, const std::string& lastName,
                      const std::string& pesel);
     ~IndividualClient() override;
 
-    // Override abstract method
+    std::string getFirstName() const;
+    std::string getLastName() const;
+    std::string getPesel() const;
+
     std::string getTaxIdentifier() const override;
+    std::string toString() const override;
+
+private:
+    std::string firstName;
+    std::string lastName;
+    std::string pesel;
 };
 
-#endif // INDIVIDUALCLIENT_H
+using IndividualClientPtr = std::shared_ptr<IndividualClient>;
+
+#endif

@@ -3,13 +3,7 @@
 
 #include <string>
 
-enum class Currency {
-    PLN,
-    EUR,
-    USD,
-    GBP,
-    CHF
-};
+enum class Currency { PLN, EUR, USD, GBP, CHF };
 
 inline std::string currencyToString(Currency c) {
     switch (c) {
@@ -18,16 +12,8 @@ inline std::string currencyToString(Currency c) {
         case Currency::USD: return "USD";
         case Currency::GBP: return "GBP";
         case Currency::CHF: return "CHF";
-        default: return "PLN";
+        default: return "UNKNOWN";
     }
-}
-
-inline Currency stringToCurrency(const std::string& s) {
-    if (s == "EUR") return Currency::EUR;
-    if (s == "USD") return Currency::USD;
-    if (s == "GBP") return Currency::GBP;
-    if (s == "CHF") return Currency::CHF;
-    return Currency::PLN;
 }
 
 #endif

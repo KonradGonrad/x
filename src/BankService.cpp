@@ -1,80 +1,70 @@
 #include "BankService.h"
 #include "Client.h"
-#include "Account.h"
 #include "SavingsAccount.h"
 #include "InvestmentAccount.h"
 #include "CurrencyAccount.h"
-#include "Address.h"
+#include "Exceptions.h"
 #include <sstream>
 #include <iomanip>
 #include <ctime>
 
 BankService::BankService(const std::string& bankName, const std::string& bankSwift,
-                         const std::string& bankNip, Address* headOffice)
+                         const std::string& bankNip, AddressPtr headOffice)
     : bankName(bankName), bankSwift(bankSwift), bankNip(bankNip),
       headOffice(headOffice) {}
 
-BankService::~BankService() {
-    for (Client* client : clients) {
-        delete client;
-    }
-    clients.clear();
-    delete headOffice;
-}
+BankService::~BankService() {}
 
 std::string BankService::getBankName() const { return bankName; }
 std::string BankService::getBankSwift() const { return bankSwift; }
 std::string BankService::getBankNip() const { return bankNip; }
-Address* BankService::getHeadOffice() const { return headOffice; }
-const std::vector<Client*>& BankService::getClients() const { return clients; }
+AddressPtr BankService::getHeadOffice() const { return headOffice; }
 
-void BankService::registerClient(Client* client) {
-    if (client != nullptr) {
-        clients.push_back(client);
-    }
+ClientRepository& BankService::getClientRepository() { return clientRepo; }
+const ClientRepository& BankService::getClientRepository() const { return clientRepo; }
+
+void BankService::registerClient(ClientPtr client) {
+    if (!client) throw ValidationException("Cannot register null client");
+    clientRepo.add(client);
 }
 
-Account* BankService::createAccount(Client* client, const std::string& accountType,
-                                    double initialBalance, Currency currency) {
-    if (client == nullptr || initialBalance < 0) {
-        return nullptr;
-    }
+AccountPtr BankService::createAccount(ClientPtr client, const std::string& accountType,
+                                      double initialBalance, Currency currency) {
+    if (!client) throw ValidationException("Client cannot be null");
+    if (initialBalance < 0) throw ValidationException("Initial balance cannot be negative");
 
     auto now = std::time(nullptr);
     std::ostringstream dateOss;
     dateOss << std::put_time(std::localtime(&now), "%Y-%m-%d");
-    std::string creationDate = dateOss.str();
-
+    
     static int ibanCounter = 10000000;
     std::ostringstream ibanOss;
     ibanOss << "PL" << std::setfill('0') << std::setw(26) << ibanCounter++;
-    std::string iban = ibanOss.str();
 
-    Account* account = nullptr;
+    AccountPtr account;
 
     if (accountType == "Savings") {
-        account = new SavingsAccount(iban, initialBalance, currency, creationDate);
+        account = std::make_shared<SavingsAccount>(ibanOss.str(), initialBalance, currency, dateOss.str());
     } else if (accountType == "Investment") {
-        account = new InvestmentAccount(iban, initialBalance, currency, creationDate);
+        account = std::make_shared<InvestmentAccount>(ibanOss.str(), initialBalance, currency, dateOss.str());
     } else if (accountType == "Currency") {
-        account = new CurrencyAccount(iban, initialBalance, currency, creationDate);
+        account = std::make_shared<CurrencyAccount>(ibanOss.str(), initialBalance, currency, dateOss.str());
+    } else {
+        throw ValidationException("Unknown account type: " + accountType);
     }
 
-    if (account != nullptr) {
-        client->addAccount(account);
-    }
-
+    client->addAccount(account);
     return account;
 }
 
 void BankService::processSession() {
-    for (Client* client : clients) {
-        if (client != nullptr) {
-            for (Account* account : client->getAccounts()) {
-                if (account != nullptr && account->getStatus() == AccountStatus::ACTIVE) {
+    for (const auto& client : clientRepo.getAll()) {
+        if (client) {
+            for (const auto& account : client->getAccounts()) {
+                if (account && account->getStatus() == AccountStatus::ACTIVE) {
                     double fee = account->calculateMonthlyFees();
                     if (fee > 0 && account->getBalance() >= fee) {
-                        account->withdraw(fee);
+                        try { account->withdraw(fee); } catch (...) {}
                     }
                 }
             }
@@ -84,9 +74,6 @@ void BankService::processSession() {
 
 std::string BankService::toString() const {
     std::ostringstream oss;
-    oss << "BankService[name=" << bankName
-        << ", swift=" << bankSwift
-        << ", nip=" << bankNip
-        << ", clients=" << clients.size() << "]";
+    oss << "BankService[name=" << bankName << ", clients=" << clientRepo.count() << "]";
     return oss.str();
 }

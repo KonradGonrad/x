@@ -2,22 +2,24 @@
 #define TRANSFER_H
 
 #include "Transaction.h"
-
-class Account;
+#include "Account.h"
 
 class Transfer : public Transaction {
-private:
-    Account* sender;
-    Account* receiver;
-
 public:
-    Transfer(const std::string& transactionId, double amount,
-             const std::string& description,
-             Account* sender, Account* receiver);
+    Transfer(long id, double amount, AccountPtr sender, AccountPtr receiver);
     ~Transfer() override;
 
-    // Override abstract methods
-    bool execute() override;
+    AccountPtr getSender() const;
+    AccountPtr getReceiver() const;
+
+    void execute();
+    std::string toString() const;
+
+private:
+    AccountPtr sender;
+    AccountPtr receiver;
 };
 
-#endif // TRANSFER_H
+using TransferPtr = std::shared_ptr<Transfer>;
+
+#endif

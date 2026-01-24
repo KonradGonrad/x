@@ -2,25 +2,31 @@
 #define TRANSACTION_H
 
 #include <string>
-#include "DateTime.h"
-#include "TransactionType.h"
+#include <ctime>
+#include <memory>
 
-class Account;  // Forward declaration
-
-
-class Transaction {
-private:
-    int id;
-    DateTime date;
-    double amount;
-    TransactionType type;
-public:
-    Transaction(const std::string& transactionId, double amount,
-                const std::string& description);
-    virtual ~Transaction();
-
-    // Abstract methods
-    virtual bool execute() = 0;
+enum class TransactionType {
+    DEPOSIT, WITHDRAWAL, TRANSFER, STOCK_PURCHASE, CURRENCY_EXCHANGE
 };
 
-#endif // TRANSACTION_H
+class Transaction {
+public:
+    Transaction(long id, double amount, TransactionType type);
+    virtual ~Transaction();
+
+    long getId() const;
+    std::time_t getDate() const;
+    double getAmount() const;
+    TransactionType getType() const;
+    std::string getTypeString() const;
+
+protected:
+    long id;
+    std::time_t date;
+    double amount;
+    TransactionType type;
+};
+
+using TransactionPtr = std::shared_ptr<Transaction>;
+
+#endif

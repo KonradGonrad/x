@@ -2,15 +2,9 @@
 #define ADDRESS_H
 
 #include <string>
+#include <memory>
 
 class Address {
-private:
-    std::string street;
-    std::string houseNumber;
-    std::string city;
-    std::string zipCode;
-    std::string country;
-
 public:
     Address(const std::string& street, const std::string& houseNumber,
             const std::string& city, const std::string& zipCode,
@@ -27,6 +21,15 @@ public:
     void setCity(const std::string& city);
 
     std::string toString() const;
+
+private:
+    std::string street;
+    std::string houseNumber;
+    std::string city;
+    std::string zipCode;
+    std::string country;
 };
+
+using AddressPtr = std::shared_ptr<Address>;
 
 #endif // ADDRESS_H

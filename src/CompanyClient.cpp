@@ -1,8 +1,7 @@
 #include "CompanyClient.h"
-#include "Address.h"
 #include <sstream>
 
-CompanyClient::CompanyClient(int internalId, Address* address,
+CompanyClient::CompanyClient(int internalId, AddressPtr address,
                              const std::string& phoneNumber,
                              const std::string& email,
                              const std::string& companyName,
@@ -19,15 +18,12 @@ std::string CompanyClient::getNip() const { return nip; }
 std::string CompanyClient::getRegon() const { return regon; }
 std::string CompanyClient::getKrs() const { return krs; }
 
-std::string CompanyClient::getTaxIdentifier() const {
-    return nip;
-}
+std::string CompanyClient::getTaxIdentifier() const { return nip; }
 
 std::string CompanyClient::toString() const {
     std::ostringstream oss;
     oss << "CompanyClient[id=" << internalId
         << ", name=" << companyName
-        << ", nip=" << nip
         << ", accounts=" << accounts.size() << "]";
     return oss.str();
 }

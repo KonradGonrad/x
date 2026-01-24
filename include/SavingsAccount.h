@@ -1,26 +1,30 @@
-#ifndef SAVINGS_ACCOUNT_H
-#define SAVINGS_ACCOUNT_H
+#ifndef SAVINGSACCOUNT_H
+#define SAVINGSACCOUNT_H
 
 #include "Account.h"
 
 class SavingsAccount : public Account {
+private:
+    double interestRate;
+
 public:
     SavingsAccount(const std::string& iban, double initialBalance,
                    Currency currency, const std::string& creationDate,
                    double interestRate = 0.03);
     ~SavingsAccount() override;
 
+    // Getters
     double getInterestRate() const;
-    void setInterestRate(double rate);
+
+    // Setters
+    void setInterestRate(double interestRate);
+
+    // Operations
     void capitalizeInterest();
 
+    // Override abstract methods
     double calculateMonthlyFees() const override;
     std::string toString() const override;
-
-private:
-    double interestRate;
 };
 
-using SavingsAccountPtr = std::shared_ptr<SavingsAccount>;
-
-#endif
+#endif // SAVINGSACCOUNT_H

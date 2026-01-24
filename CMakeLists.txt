@@ -44,6 +44,7 @@ set(CORE_SOURCES
 # Main application sources
 set(APP_SOURCES
     ${CORE_SOURCES}
+    src/ConsoleUI.cpp
     src/WebServer.cpp
     src/main.cpp
 )

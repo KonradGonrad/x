@@ -1,5 +1,4 @@
 #include "SavingsAccount.h"
-#include "Exceptions.h"
 #include <sstream>
 
 SavingsAccount::SavingsAccount(const std::string& iban, double initialBalance,
@@ -10,27 +9,35 @@ SavingsAccount::SavingsAccount(const std::string& iban, double initialBalance,
 
 SavingsAccount::~SavingsAccount() {}
 
-double SavingsAccount::getInterestRate() const { return interestRate; }
+double SavingsAccount::getInterestRate() const {
+    return interestRate;
+}
 
-void SavingsAccount::setInterestRate(double rate) {
-    if (rate < 0) throw ValidationException("Interest rate cannot be negative");
-    interestRate = rate;
+void SavingsAccount::setInterestRate(double interestRate) {
+    this->interestRate = interestRate;
 }
 
 void SavingsAccount::capitalizeInterest() {
-    if (status != AccountStatus::ACTIVE) throw AccountNotActiveException(iban);
-    if (balance > 0) {
-        balance += balance * (interestRate / 12.0);
+    if (status == AccountStatus::ACTIVE && balance > 0) {
+        double interest = balance * (interestRate / 12.0);
+        balance += interest;
     }
 }
 
 double SavingsAccount::calculateMonthlyFees() const {
-    return (balance < 1000.0) ? 5.0 : 0.0;
+    if (balance < 1000.0) {
+        return 5.0;
+    }
+    return 0.0;
 }
 
 std::string SavingsAccount::toString() const {
     std::ostringstream oss;
-    oss << "SavingsAccount[iban=" << iban << ", balance=" << balance
-        << ", rate=" << (interestRate * 100) << "%]";
+    oss << "SavingsAccount[iban=" << iban
+        << ", balance=" << balance
+        << ", interestRate=" << (interestRate * 100) << "%"
+        << ", status=" << (status == AccountStatus::ACTIVE ? "ACTIVE" :
+                          status == AccountStatus::BLOCKED ? "BLOCKED" : "CLOSED")
+        << ", creationDate=" << creationDate << "]";
     return oss.str();
 }

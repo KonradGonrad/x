@@ -1,62 +1,141 @@
+/**
+ * @file Repository.h
+ * @brief Generyczny szablon repozytorium z użyciem smart pointerów
+ * 
+ * Klasa szablonowa do przechowywania obiektów identyfikowanych przez klucz.
+ * Używa std::shared_ptr do automatycznego zarządzania pamięcią.
+ */
+
 #ifndef REPOSITORY_H
 #define REPOSITORY_H
 
-#include <vector>
 #include <memory>
+#include <vector>
+#include <map>
 #include <algorithm>
 #include <functional>
 #include "Exceptions.h"
 
+/**
+ * @class Repository
+ * @brief Generyczne repozytorium z użyciem std::shared_ptr
+ */
 template<typename T, typename KeyType = int>
 class Repository {
+private:
+    std::map<KeyType, std::shared_ptr<T>> items;  ///< Przechowywane elementy
+
 public:
-    using Ptr = std::shared_ptr<T>;
-    using Collection = std::vector<Ptr>;
+    /**
+     * @brief Konstruktor domyślny
+     */
+    Repository() = default;
 
-    virtual ~Repository() = default;
+    /**
+     * @brief Destruktor - smart pointery automatycznie zwalniają pamięć
+     */
+    ~Repository() = default;
 
-    void add(Ptr item) {
-        if (!item) throw ValidationException("Cannot add null item");
-        items.push_back(item);
+    /**
+     * @brief Dodaje element do repozytorium
+     * @param key Klucz identyfikujący element
+     * @param item Wskaźnik do elementu
+     */
+    void add(const KeyType& key, T* item) {
+        items[key] = std::shared_ptr<T>(item);
     }
 
-    Ptr findById(KeyType id) const {
-        for (const auto& item : items) {
-            if (item && getKey(item) == id) return item;
+    /**
+     * @brief Dodaje element jako shared_ptr
+     */
+    void add(const KeyType& key, std::shared_ptr<T> item) {
+        items[key] = item;
+    }
+
+    /**
+     * @brief Pobiera element z repozytorium
+     * @param key Klucz elementu
+     * @return Shared pointer do elementu
+     * @throw BankException gdy element nie istnieje
+     */
+    std::shared_ptr<T> get(const KeyType& key) const {
+        auto it = items.find(key);
+        if (it == items.end()) {
+            throw BankException("Item not found in repository");
         }
-        return nullptr;
+        return it->second;
     }
 
-    Ptr getById(KeyType id) const {
-        auto item = findById(id);
-        if (!item) throw NotFoundException("Item with given ID");
-        return item;
+    /**
+     * @brief Sprawdza czy element istnieje
+     */
+    bool exists(const KeyType& key) const {
+        return items.find(key) != items.end();
     }
 
-    bool remove(KeyType id) {
-        auto it = std::remove_if(items.begin(), items.end(),
-            [this, &id](const Ptr& item) { return item && getKey(item) == id; });
-        if (it != items.end()) {
-            items.erase(it, items.end());
-            return true;
-        }
-        return false;
+    /**
+     * @brief Usuwa element z repozytorium
+     * @return true jesli usunieto
+     */
+    bool remove(const KeyType& key) {
+        return items.erase(key) > 0;
     }
 
-    const Collection& getAll() const { return items; }
-    size_t count() const { return items.size(); }
+    /**
+     * @brief Zwraca liczbe elementow
+     */
+    size_t size() const {
+        return items.size();
+    }
 
-    std::vector<Ptr> filter(std::function<bool(const Ptr&)> predicate) const {
-        std::vector<Ptr> result;
-        for (const auto& item : items) {
-            if (item && predicate(item)) result.push_back(item);
+    /**
+     * @brief Sprawdza czy puste
+     */
+    bool empty() const {
+        return items.empty();
+    }
+
+    /**
+     * @brief Czysci repozytorium
+     */
+    void clear() {
+        items.clear();
+    }
+
+    /**
+     * @brief Pobiera wszystkie elementy
+     */
+    std::vector<std::shared_ptr<T>> getAll() const {
+        std::vector<std::shared_ptr<T>> result;
+        result.reserve(items.size());
+        for (const auto& pair : items) {
+            result.push_back(pair.second);
         }
         return result;
     }
 
-protected:
-    virtual KeyType getKey(const Ptr& item) const = 0;
-    Collection items;
+    /**
+     * @brief Filtruje elementy wedlug predykatu
+     * @param predicate Funkcja zwracajaca true dla elementow do zachowania
+     */
+    std::vector<std::shared_ptr<T>> filter(std::function<bool(const T&)> predicate) const {
+        std::vector<std::shared_ptr<T>> result;
+        for (const auto& pair : items) {
+            if (predicate(*pair.second)) {
+                result.push_back(pair.second);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @brief Wykonuje akcje dla kazdego elementu
+     */
+    void forEach(std::function<void(T&)> action) {
+        for (auto& pair : items) {
+            action(*pair.second);
+        }
+    }
 };
 
 #endif // REPOSITORY_H

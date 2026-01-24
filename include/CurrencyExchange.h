@@ -1,39 +1,35 @@
-#ifndef CURRENCY_EXCHANGE_H
-#define CURRENCY_EXCHANGE_H
+#ifndef CURRENCYEXCHANGE_H
+#define CURRENCYEXCHANGE_H
 
 #include "Transaction.h"
-#include "CurrencyAccount.h"
 #include "Currency.h"
-#include <map>
+#include <string>
+
+class CurrencyAccount;
+class MarketDataService;
 
 class CurrencyExchange : public Transaction {
+private:
+    CurrencyAccount* account;
+    Currency targetCurrency;
+    double usedRate;
+    MarketDataService* market;
+
 public:
-    CurrencyExchange(long id, CurrencyAccountPtr sourceAccount,
-                     CurrencyAccountPtr targetAccount,
-                     double sourceAmount, double exchangeRate);
+    CurrencyExchange(long id, double amount, CurrencyAccount* account,
+                     Currency targetCurrency, double usedRate,
+                     MarketDataService* market);
     ~CurrencyExchange() override;
 
-    CurrencyAccountPtr getSourceAccount() const;
-    CurrencyAccountPtr getTargetAccount() const;
-    double getSourceAmount() const;
-    double getTargetAmount() const;
-    double getExchangeRate() const;
+    // Getters
+    CurrencyAccount* getAccount() const;
+    Currency getTargetCurrency() const;
+    double getUsedRate() const;
+    MarketDataService* getMarket() const;
 
-    void execute();
+    // Override abstract methods
+    bool execute() override;
     std::string toString() const override;
-
-    // Static method for getting default rates
-    static double getDefaultRate(Currency from, Currency to);
-
-private:
-    CurrencyAccountPtr sourceAccount;
-    CurrencyAccountPtr targetAccount;
-    double sourceAmount;
-    double exchangeRate;
-    
-    static std::map<std::pair<Currency, Currency>, double> defaultRates;
 };
-
-using CurrencyExchangePtr = std::shared_ptr<CurrencyExchange>;
 
 #endif // CURRENCYEXCHANGE_H

@@ -1,59 +1,106 @@
+/**
+ * @file Exceptions.h
+ * @brief Hierarchia wyjatkow systemu bankowego
+ * 
+ * Zawiera klasy wyjatkow uzywane do sygnalizacji bledow w operacjach bankowych.
+ */
+
 #ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
-#include <stdexcept>
+#include <exception>
 #include <string>
 
-class BankException : public std::runtime_error {
+/**
+ * @class BankException
+ * @brief Bazowa klasa wyjatkow dla systemu bankowego
+ */
+class BankException : public std::exception {
+protected:
+    std::string message;  ///< Komunikat bledu
+
 public:
-    explicit BankException(const std::string& message) : std::runtime_error(message) {}
+    explicit BankException(const std::string& msg) : message(msg) {}
+    
+    const char* what() const noexcept override {
+        return message.c_str();
+    }
 };
 
+/**
+ * @class InsufficientFundsException
+ * @brief Wyjatek rzucany przy braku wystarczajacych srodkow
+ */
 class InsufficientFundsException : public BankException {
+private:
+    double requested;  ///< Zadana kwota
+    double available;  ///< Dostepna kwota
+
 public:
     InsufficientFundsException(double requested, double available)
-        : BankException("Insufficient funds: requested " + std::to_string(requested) +
-                       ", available " + std::to_string(available)),
+        : BankException("Insufficient funds: requested " + 
+                       std::to_string(requested) + ", available " + 
+                       std::to_string(available)),
           requested(requested), available(available) {}
+
     double getRequested() const { return requested; }
     double getAvailable() const { return available; }
-private:
-    double requested, available;
 };
 
-class AccountNotActiveException : public BankException {
-public:
-    explicit AccountNotActiveException(const std::string& iban)
-        : BankException("Account not active: " + iban), iban(iban) {}
-    std::string getIban() const { return iban; }
-private:
-    std::string iban;
-};
-
-class NotFoundException : public BankException {
-public:
-    explicit NotFoundException(const std::string& entity) : BankException("Not found: " + entity) {}
-};
-
-class ValidationException : public BankException {
-public:
-    explicit ValidationException(const std::string& message) : BankException("Validation error: " + message) {}
-};
-
+/**
+ * @class InvalidOperationException
+ * @brief Wyjatek rzucany przy nieprawidlowej operacji
+ */
 class InvalidOperationException : public BankException {
 public:
-    explicit InvalidOperationException(const std::string& message) : BankException("Invalid operation: " + message) {}
+    explicit InvalidOperationException(const std::string& msg)
+        : BankException("Nieprawidlowa operacja: " + msg) {}
 };
 
-class CurrencyExchangeException : public BankException {
+/**
+ * @class AccountBlockedException
+ * @brief Wyjatek rzucany przy operacji na zablokowanym koncie
+ */
+class AccountBlockedException : public BankException {
+private:
+    std::string iban;
+
 public:
-    explicit CurrencyExchangeException(const std::string& message) : BankException("Exchange error: " + message) {}
+    explicit AccountBlockedException(const std::string& iban)
+        : BankException("Konto zablokowane: " + iban), iban(iban) {}
+    
+    std::string getIban() const { return iban; }
 };
 
-class MarketDataException : public BankException {
+/**
+ * @class ClientNotFoundException
+ * @brief Wyjatek rzucany gdy nie znaleziono klienta
+ */
+class ClientNotFoundException : public BankException {
+private:
+    int clientId;
+
 public:
-    explicit MarketDataException(const std::string& message) : BankException("Market data error: " + message) {}
+    explicit ClientNotFoundException(int clientId)
+        : BankException("Nie znaleziono klienta o ID: " + std::to_string(clientId)),
+          clientId(clientId) {}
+    
+    int getClientId() const { return clientId; }
 };
 
-#endif
- // EXCEPTIONS_H
+/**
+ * @class AccountNotFoundException
+ * @brief Wyjatek rzucany gdy nie znaleziono konta
+ */
+class AccountNotFoundException : public BankException {
+private:
+    std::string iban;
+
+public:
+    explicit AccountNotFoundException(const std::string& iban)
+        : BankException("Nie znaleziono konta: " + iban), iban(iban) {}
+    
+    std::string getIban() const { return iban; }
+};
+
+#endif // EXCEPTIONS_H

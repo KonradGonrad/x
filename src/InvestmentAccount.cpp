@@ -36,6 +36,24 @@ void InvestmentAccount::buyStock(const std::string& ticker, int amount, double p
     portfolio[ticker] += amount;
 }
 
+void InvestmentAccount::sellStock(const std::string& ticker, int amount, double price) {
+    if (status != AccountStatus::ACTIVE) throw AccountNotActiveException(iban);
+    if (amount <= 0) throw ValidationException("Stock amount must be positive");
+    
+    auto it = portfolio.find(ticker);
+    if (it == portfolio.end() || it->second < amount) {
+        throw InvalidOperationException("Insufficient shares to sell");
+    }
+    
+    double totalValue = amount * price;
+    double fee = totalValue * brokerageFee;
+    
+    portfolio[ticker] -= amount;
+    if (portfolio[ticker] == 0) portfolio.erase(ticker);
+    
+    balance += (totalValue - fee);
+}
+
 double InvestmentAccount::calculateMonthlyFees() const {
     return balance * (brokerageFee / 12.0);
 }

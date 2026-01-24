@@ -15,5 +15,15 @@ inline std::string currencyToString(Currency c) {
         default: return "UNKNOWN";
     }
 }
+//missclick usunięte było --- IGNORE ---
+inline Currency stringToCurrency(const std::string& s) {
+    if (s == "PLN") return Currency::PLN;
+    if (s == "EUR") return Currency::EUR;
+    if (s == "USD") return Currency::USD;
+    if (s == "GBP") return Currency::GBP;
+    if (s == "CHF") return Currency::CHF;
+    return Currency::PLN;
+}
 
 #endif
+    // CURRENCY_H

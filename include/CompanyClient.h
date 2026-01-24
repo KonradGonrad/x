@@ -20,10 +20,7 @@ public:
     std::string toString() const override;
 
 private:
-    std::string companyName;
-    std::string nip;
-    std::string regon;
-    std::string krs;
+    std::string companyName, nip, regon, krs;
 };
 
 using CompanyClientPtr = std::shared_ptr<CompanyClient>;

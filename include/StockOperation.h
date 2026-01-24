@@ -1,28 +1,34 @@
-#ifndef STOCKOPERATION_H
-#define STOCKOPERATION_H
+#ifndef STOCK_OPERATION_H
+#define STOCK_OPERATION_H
 
 #include "Transaction.h"
+#include "InvestmentAccount.h"
 #include <string>
 
-class InvestmentAccount;
-class MarketDataService;
-
 class StockOperation : public Transaction {
-private:
-    InvestmentAccount* account;
-    std::string ticker;
-    int quantity;
-    MarketDataService* market;
-
 public:
-    StockOperation(const std::string& transactionId, double amount,
-                   const std::string& description,
-                   InvestmentAccount* account, const std::string& ticker,
-                   int quantity, MarketDataService* market);
+    StockOperation(long id, InvestmentAccountPtr account, const std::string& ticker,
+                   int quantity, double pricePerShare, bool isBuy);
     ~StockOperation() override;
 
-    // Override abstract methods
-    bool execute() override;
+    InvestmentAccountPtr getAccount() const;
+    std::string getTicker() const;
+    int getQuantity() const;
+    double getPricePerShare() const;
+    bool isBuyOperation() const;
+    double getTotalValue() const;
+
+    void execute();
+    std::string toString() const override;
+
+private:
+    InvestmentAccountPtr account;
+    std::string ticker;
+    int quantity;
+    double pricePerShare;
+    bool isBuy;
 };
+
+using StockOperationPtr = std::shared_ptr<StockOperation>;
 
 #endif // STOCKOPERATION_H

@@ -15,6 +15,7 @@ public:
     void setBrokerageFee(double fee);
     const std::map<std::string, int>& getPortfolio() const;
     void buyStock(const std::string& ticker, int amount, double price);
+    void sellStock(const std::string& ticker, int amount, double price);
     // Override abstract methods    
     double calculateMonthlyFees() const override;
     std::string toString() const override;

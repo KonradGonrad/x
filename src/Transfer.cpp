@@ -23,6 +23,9 @@ void Transfer::execute() {
 
 std::string Transfer::toString() const {
     std::ostringstream oss;
-    oss << "Transfer[id=" << id << ", amount=" << amount << "]";
+    oss << "Transfer[id=" << id << ", amount=" << amount;
+    if (sender) oss << ", from=" << sender->getIban();
+    if (receiver) oss << ", to=" << receiver->getIban();
+    oss << "]";
     return oss.str();
 }

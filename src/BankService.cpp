@@ -3,6 +3,9 @@
 #include "SavingsAccount.h"
 #include "InvestmentAccount.h"
 #include "CurrencyAccount.h"
+#include "Transfer.h"
+#include "CurrencyExchange.h"
+#include "StockOperation.h"
 #include "Exceptions.h"
 #include <sstream>
 #include <iomanip>
@@ -11,7 +14,7 @@
 BankService::BankService(const std::string& bankName, const std::string& bankSwift,
                          const std::string& bankNip, AddressPtr headOffice)
     : bankName(bankName), bankSwift(bankSwift), bankNip(bankNip),
-      headOffice(headOffice) {}
+      headOffice(headOffice), nextTransactionId(1) {}
 
 BankService::~BankService() {}
 
@@ -21,7 +24,8 @@ std::string BankService::getBankNip() const { return bankNip; }
 AddressPtr BankService::getHeadOffice() const { return headOffice; }
 
 ClientRepository& BankService::getClientRepository() { return clientRepo; }
-const ClientRepository& BankService::getClientRepository() const { return clientRepo; }
+TransactionRepository& BankService::getTransactionRepository() { return transactionRepo; }
+MarketDataService& BankService::getMarketDataService() { return marketData; }
 
 void BankService::registerClient(ClientPtr client) {
     if (!client) throw ValidationException("Cannot register null client");
@@ -57,6 +61,26 @@ AccountPtr BankService::createAccount(ClientPtr client, const std::string& accou
     return account;
 }
 
+void BankService::executeTransfer(AccountPtr from, AccountPtr to, double amount) {
+    auto transfer = std::make_shared<Transfer>(nextTransactionId++, amount, from, to);
+    transfer->execute();
+    transactionRepo.add(transfer);
+}
+
+void BankService::executeCurrencyExchange(CurrencyAccountPtr source, CurrencyAccountPtr target, double amount) {
+    double rate = marketData.getExchangeRate(source->getCurrency(), target->getCurrency());
+    auto exchange = std::make_shared<CurrencyExchange>(nextTransactionId++, source, target, amount, rate);
+    exchange->execute();
+    transactionRepo.add(exchange);
+}
+
+void BankService::executeStockOperation(InvestmentAccountPtr account, const std::string& ticker, int quantity, bool isBuy) {
+    double price = marketData.getStockQuote(ticker).price;
+    auto operation = std::make_shared<StockOperation>(nextTransactionId++, account, ticker, quantity, price, isBuy);
+    operation->execute();
+    transactionRepo.add(operation);
+}
+
 void BankService::processSession() {
     for (const auto& client : clientRepo.getAll()) {
         if (client) {
@@ -74,6 +98,8 @@ void BankService::processSession() {
 
 std::string BankService::toString() const {
     std::ostringstream oss;
-    oss << "BankService[name=" << bankName << ", clients=" << clientRepo.count() << "]";
+    oss << "BankService[name=" << bankName
+        << ", clients=" << clientRepo.count()
+        << ", transactions=" << transactionRepo.count() << "]";
     return oss.str();
 }

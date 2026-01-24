@@ -1,4 +1,5 @@
 #include "Transaction.h"
+#include <sstream>
 
 Transaction::Transaction(long id, double amount, TransactionType type)
     : id(id), amount(amount), type(type) {
@@ -18,7 +19,15 @@ std::string Transaction::getTypeString() const {
         case TransactionType::WITHDRAWAL: return "WITHDRAWAL";
         case TransactionType::TRANSFER: return "TRANSFER";
         case TransactionType::STOCK_PURCHASE: return "STOCK_PURCHASE";
+        case TransactionType::STOCK_SALE: return "STOCK_SALE";
         case TransactionType::CURRENCY_EXCHANGE: return "CURRENCY_EXCHANGE";
         default: return "UNKNOWN";
     }
+}
+
+std::string Transaction::toString() const {
+    std::ostringstream oss;
+    oss << "Transaction[id=" << id << ", type=" << getTypeString()
+        << ", amount=" << amount << "]";
+    return oss.str();
 }

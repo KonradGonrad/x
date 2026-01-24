@@ -28,7 +28,7 @@ public:
     virtual std::string getTaxIdentifier() const = 0;
     virtual std::string toString() const = 0;
 
-private:
+protected:
     int internalId;
     AddressPtr address;
     std::string phoneNumber;
@@ -38,4 +38,4 @@ private:
 
 using ClientPtr = std::shared_ptr<Client>;
 
-#endif // CLIENT_H
+#endif  // CLIENT_H

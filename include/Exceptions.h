@@ -6,8 +6,7 @@
 
 class BankException : public std::runtime_error {
 public:
-    explicit BankException(const std::string& message)
-        : std::runtime_error(message) {}
+    explicit BankException(const std::string& message) : std::runtime_error(message) {}
 };
 
 class InsufficientFundsException : public BankException {
@@ -19,8 +18,7 @@ public:
     double getRequested() const { return requested; }
     double getAvailable() const { return available; }
 private:
-    double requested;
-    double available;
+    double requested, available;
 };
 
 class AccountNotActiveException : public BankException {
@@ -34,20 +32,28 @@ private:
 
 class NotFoundException : public BankException {
 public:
-    explicit NotFoundException(const std::string& entity)
-        : BankException("Not found: " + entity) {}
+    explicit NotFoundException(const std::string& entity) : BankException("Not found: " + entity) {}
 };
 
 class ValidationException : public BankException {
 public:
-    explicit ValidationException(const std::string& message)
-        : BankException("Validation error: " + message) {}
+    explicit ValidationException(const std::string& message) : BankException("Validation error: " + message) {}
 };
 
 class InvalidOperationException : public BankException {
 public:
-    explicit InvalidOperationException(const std::string& message)
-        : BankException("Invalid operation: " + message) {}
+    explicit InvalidOperationException(const std::string& message) : BankException("Invalid operation: " + message) {}
 };
 
-#endif // EXCEPTIONS_H
+class CurrencyExchangeException : public BankException {
+public:
+    explicit CurrencyExchangeException(const std::string& message) : BankException("Exchange error: " + message) {}
+};
+
+class MarketDataException : public BankException {
+public:
+    explicit MarketDataException(const std::string& message) : BankException("Market data error: " + message) {}
+};
+
+#endif
+ // EXCEPTIONS_H

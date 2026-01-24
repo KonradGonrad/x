@@ -20,7 +20,6 @@ public:
     std::string getCreationDate() const;
 
     void setStatus(AccountStatus status);
-
     virtual void deposit(double amount);
     virtual void withdraw(double amount);
 
@@ -37,4 +36,5 @@ protected:
 
 using AccountPtr = std::shared_ptr<Account>;
 
-#endif // ACCOUNT_H
+#endif
+ // ACCOUNT_H

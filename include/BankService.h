@@ -1,16 +1,13 @@
-#ifndef BANKSERVICE_H
-#define BANKSERVICE_H
+#ifndef BANK_SERVICE_H
+#define BANK_SERVICE_H
 
-#include <vector>
 #include <string>
+#include <memory>
 #include "Currency.h"
-
-class Client;
-class Account;
-class Transaction;
-class TransactionRepository;
-class MarketDataService;
-class Address;
+#include "Address.h"
+#include "ClientRepository.h"
+#include "TransactionRepository.h"
+#include "MarketDataService.h"
 
 class BankService {
 public:
@@ -24,23 +21,30 @@ public:
     AddressPtr getHeadOffice() const;
     
     ClientRepository& getClientRepository();
-    const ClientRepository& getClientRepository() const;
+    TransactionRepository& getTransactionRepository();
+    MarketDataService& getMarketDataService();
 
-    // Core methods
-     void registerClient(ClientPtr client);
+    void registerClient(ClientPtr client);
     AccountPtr createAccount(ClientPtr client, const std::string& accountType,
                             double initialBalance, Currency currency);
+
+    // New service methods
+    void executeTransfer(AccountPtr from, AccountPtr to, double amount);
+    void executeCurrencyExchange(CurrencyAccountPtr source, CurrencyAccountPtr target, double amount);
+    void executeStockOperation(InvestmentAccountPtr account, const std::string& ticker, int quantity, bool isBuy);
+
     void processSession();
     std::string toString() const;
-    
+
 private:
-    std::string bankName;
-    std::string bankSwift;
-    std::string bankNip;
+    std::string bankName, bankSwift, bankNip;
     AddressPtr headOffice;
     ClientRepository clientRepo;
+    TransactionRepository transactionRepo;
+    MarketDataService marketData;
+    long nextTransactionId;
 };
 
 using BankServicePtr = std::shared_ptr<BankService>;
 
-#endif // BANKSERVICE_H
+#endif // BANK_SERVICE_H

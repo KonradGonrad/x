@@ -6,7 +6,7 @@
 #include <memory>
 
 enum class TransactionType {
-    DEPOSIT, WITHDRAWAL, TRANSFER, STOCK_PURCHASE, CURRENCY_EXCHANGE
+    DEPOSIT, WITHDRAWAL, TRANSFER, STOCK_PURCHASE, STOCK_SALE, CURRENCY_EXCHANGE
 };
 
 class Transaction {
@@ -29,4 +29,4 @@ protected:
 
 using TransactionPtr = std::shared_ptr<Transaction>;
 
-#endif
+#endif // TRANSACTION_H

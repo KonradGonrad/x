@@ -23,12 +23,9 @@ public:
     std::string toString() const;
 
 private:
-    std::string street;
-    std::string houseNumber;
-    std::string city;
-    std::string zipCode;
-    std::string country;
+    std::string street, houseNumber, city, zipCode, country;
 };
+
 
 using AddressPtr = std::shared_ptr<Address>;
 

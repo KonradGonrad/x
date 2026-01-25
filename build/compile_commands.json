@@ -1,0 +1,200 @@
+[
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/main.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/main.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/main.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/main.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/Account.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/Account.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/Account.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/Account.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/Address.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/Address.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/Address.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/Address.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/BankService.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/BankService.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/BankService.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/BankService.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/Client.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/Client.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/Client.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/Client.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/CompanyClient.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/CompanyClient.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/CompanyClient.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/CompanyClient.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/ConsoleUI.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/ConsoleUI.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/ConsoleUI.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/ConsoleUI.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/CurrencyAccount.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/CurrencyAccount.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/CurrencyAccount.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/CurrencyAccount.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/CurrencyExchange.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/CurrencyExchange.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/CurrencyExchange.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/CurrencyExchange.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/IndividualClient.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/IndividualClient.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/IndividualClient.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/IndividualClient.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/InvestmentAccount.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/InvestmentAccount.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/InvestmentAccount.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/InvestmentAccount.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/MarketDataService.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/MarketDataService.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/MarketDataService.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/MarketDataService.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/SavingsAccount.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/SavingsAccount.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/SavingsAccount.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/SavingsAccount.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/StockOperation.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/StockOperation.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/StockOperation.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/StockOperation.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/Transaction.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/Transaction.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/Transaction.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/Transaction.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/TransactionRepository.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/TransactionRepository.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/TransactionRepository.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/TransactionRepository.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++  -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -I/opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/BankingSystem.dir/src/Transfer.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/Transfer.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/Transfer.cpp",
+  "output": "CMakeFiles/BankingSystem.dir/src/Transfer.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/tests/tests.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/tests/tests.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/tests/tests.cpp",
+  "output": "CMakeFiles/UnitTests.dir/tests/tests.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/Account.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/Account.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/Account.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/Account.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/Address.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/Address.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/Address.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/Address.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/BankService.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/BankService.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/BankService.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/BankService.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/Client.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/Client.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/Client.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/Client.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/CompanyClient.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/CompanyClient.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/CompanyClient.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/CompanyClient.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/CurrencyAccount.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/CurrencyAccount.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/CurrencyAccount.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/CurrencyAccount.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/CurrencyExchange.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/CurrencyExchange.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/CurrencyExchange.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/CurrencyExchange.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/IndividualClient.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/IndividualClient.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/IndividualClient.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/IndividualClient.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/InvestmentAccount.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/InvestmentAccount.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/InvestmentAccount.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/InvestmentAccount.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/MarketDataService.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/MarketDataService.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/MarketDataService.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/MarketDataService.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/SavingsAccount.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/SavingsAccount.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/SavingsAccount.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/SavingsAccount.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/StockOperation.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/StockOperation.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/StockOperation.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/StockOperation.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/Transaction.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/Transaction.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/Transaction.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/Transaction.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/TransactionRepository.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/TransactionRepository.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/TransactionRepository.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/TransactionRepository.cpp.o"
+},
+{
+  "directory": "/Users/konradkargul/Desktop/cpp/c_uni_project/build",
+  "command": "/usr/bin/g++ -DBOOST_UNIT_TEST_FRAMEWORK_DYN_LINK -DBOOST_UNIT_TEST_FRAMEWORK_NO_LIB -I/Users/konradkargul/Desktop/cpp/c_uni_project/include -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/UnitTests.dir/src/Transfer.cpp.o -c /Users/konradkargul/Desktop/cpp/c_uni_project/src/Transfer.cpp",
+  "file": "/Users/konradkargul/Desktop/cpp/c_uni_project/src/Transfer.cpp",
+  "output": "CMakeFiles/UnitTests.dir/src/Transfer.cpp.o"
+}
+]

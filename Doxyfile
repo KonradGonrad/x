@@ -1,0 +1,25 @@
+# Doxyfile - Konfiguracja dokumentacji
+# Wygeneruj dokumentację: doxygen Doxyfile
+
+PROJECT_NAME           = "System Bankowy"
+PROJECT_NUMBER         = 1.0
+PROJECT_BRIEF          = "Projekt C++20 - System bankowy z wieloma typami kont"
+
+OUTPUT_DIRECTORY       = docs
+OUTPUT_LANGUAGE        = Polish
+
+INPUT                  = include src
+FILE_PATTERNS          = *.h *.cpp
+RECURSIVE              = YES
+
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+
+HAVE_DOT               = NO

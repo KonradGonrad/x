@@ -1,35 +1,75 @@
 #include "TransactionRepository.h"
+#include "Transaction.h"
+#include "Account.h"
+#include <sstream>
 
-std::vector<TransactionPtr> TransactionRepository::findByType(TransactionType type) const {
-    return filter([type](const TransactionPtr& t) {
-        return t->getType() == type;
-    });
-}
+TransactionRepository::TransactionRepository() {}
 
-std::vector<TransactionPtr> TransactionRepository::findByDateRange(std::time_t from, std::time_t to) const {
-    return filter([from, to](const TransactionPtr& t) {
-        return t->getDate() >= from && t->getDate() <= to;
-    });
-}
-
-std::vector<TransactionPtr> TransactionRepository::findByAmountRange(double minAmount, double maxAmount) const {
-    return filter([minAmount, maxAmount](const TransactionPtr& t) {
-        return t->getAmount() >= minAmount && t->getAmount() <= maxAmount;
-    });
-}
-
-double TransactionRepository::getTotalAmount() const {
-    double total = 0;
-    for (const auto& t : items) {
-        if (t) total += t->getAmount();
+TransactionRepository::~TransactionRepository() {
+    for (Transaction* tx : completedTransactions) {
+        delete tx;
     }
-    return total;
+    completedTransactions.clear();
+    while (!pendingTransactions.empty()) {
+        delete pendingTransactions.front();
+        pendingTransactions.pop();
+    }
 }
 
-double TransactionRepository::getTotalAmountByType(TransactionType type) const {
-    double total = 0;
-    for (const auto& t : items) {
-        if (t && t->getType() == type) total += t->getAmount();
+void TransactionRepository::save(Transaction* transaction) {
+    if (transaction != nullptr) {
+        completedTransactions.push_back(transaction);
     }
-    return total;
+}
+
+std::vector<Transaction*> TransactionRepository::getHistory(Account* account) const {
+    return completedTransactions;
+}
+
+std::queue<Transaction*> TransactionRepository::getPending() const {
+    return pendingTransactions;
+}
+
+void TransactionRepository::addPendingTransaction(Transaction* transaction) {
+    if (transaction != nullptr) {
+        pendingTransactions.push(transaction);
+    }
+}
+
+Transaction* TransactionRepository::getNextPendingTransaction() {
+    if (pendingTransactions.empty()) {
+        return nullptr;
+    }
+    Transaction* tx = pendingTransactions.front();
+    pendingTransactions.pop();
+    return tx;
+}
+
+bool TransactionRepository::hasPendingTransactions() const {
+    return !pendingTransactions.empty();
+}
+
+size_t TransactionRepository::getPendingCount() const {
+    return pendingTransactions.size();
+}
+
+void TransactionRepository::addCompletedTransaction(Transaction* transaction) {
+    if (transaction != nullptr) {
+        completedTransactions.push_back(transaction);
+    }
+}
+
+const std::vector<Transaction*>& TransactionRepository::getCompletedTransactions() const {
+    return completedTransactions;
+}
+
+size_t TransactionRepository::getCompletedCount() const {
+    return completedTransactions.size();
+}
+
+std::string TransactionRepository::toString() const {
+    std::ostringstream oss;
+    oss << "TransactionRepository[pending=" << pendingTransactions.size()
+        << ", completed=" << completedTransactions.size() << "]";
+    return oss.str();
 }

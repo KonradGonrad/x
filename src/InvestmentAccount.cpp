@@ -1,57 +1,32 @@
 #include "InvestmentAccount.h"
-#include "Exceptions.h"
 #include <sstream>
 
 InvestmentAccount::InvestmentAccount(const std::string& iban, double initialBalance,
-                                     Currency currency, const std::string& creationDate,
+                                             Currency currency, const std::string& creationDate,
                                      double brokerageFee)
     : Account(iban, initialBalance, currency, creationDate),
       brokerageFee(brokerageFee) {}
 
 InvestmentAccount::~InvestmentAccount() {}
 
-double InvestmentAccount::getBrokerageFee() const { return brokerageFee; }
-
-void InvestmentAccount::setBrokerageFee(double fee) {
-    if (fee < 0) throw ValidationException("Brokerage fee cannot be negative");
-    brokerageFee = fee;
+double InvestmentAccount::getBrokerageFee() const {
+    return brokerageFee;
 }
 
 const std::map<std::string, int>& InvestmentAccount::getPortfolio() const {
     return portfolio;
 }
 
-void InvestmentAccount::buyStock(const std::string& ticker, int amount, double price) {
-    if (status != AccountStatus::ACTIVE) throw AccountNotActiveException(iban);
-    if (amount <= 0) throw ValidationException("Stock amount must be positive");
-    if (ticker.empty()) throw ValidationException("Ticker cannot be empty");
-    
-    double totalCost = amount * price;
-    double fee = totalCost * brokerageFee;
-    double required = totalCost + fee;
-    
-    if (required > balance) throw InsufficientFundsException(required, balance);
-    
-    balance -= required;
-    portfolio[ticker] += amount;
+void InvestmentAccount::setBrokerageFee(double fee) {
+    this->brokerageFee = fee;
 }
 
-void InvestmentAccount::sellStock(const std::string& ticker, int amount, double price) {
-    if (status != AccountStatus::ACTIVE) throw AccountNotActiveException(iban);
-    if (amount <= 0) throw ValidationException("Stock amount must be positive");
-    
-    auto it = portfolio.find(ticker);
-    if (it == portfolio.end() || it->second < amount) {
-        throw InvalidOperationException("Insufficient shares to sell");
+void InvestmentAccount::buyStock(const std::string& ticker, int amount) {
+    if (status != AccountStatus::ACTIVE || amount <= 0 || balance < amount) {
+        return;
     }
-    
-    double totalValue = amount * price;
-    double fee = totalValue * brokerageFee;
-    
-    portfolio[ticker] -= amount;
-    if (portfolio[ticker] == 0) portfolio.erase(ticker);
-    
-    balance += (totalValue - fee);
+    balance -= amount;
+    portfolio[ticker] += amount;
 }
 
 double InvestmentAccount::calculateMonthlyFees() const {
@@ -60,7 +35,12 @@ double InvestmentAccount::calculateMonthlyFees() const {
 
 std::string InvestmentAccount::toString() const {
     std::ostringstream oss;
-    oss << "InvestmentAccount[iban=" << iban << ", balance=" << balance
-        << ", holdings=" << portfolio.size() << "]";
+    oss << "InvestmentAccount[iban=" << iban
+        << ", cashBalance=" << balance
+        << ", holdings=" << portfolio.size()
+        << ", brokerageFee=" << (brokerageFee * 100) << "%"
+        << ", status=" << (status == AccountStatus::ACTIVE ? "ACTIVE" :
+                          status == AccountStatus::BLOCKED ? "BLOCKED" : "CLOSED")
+        << ", creationDate=" << creationDate << "]";
     return oss.str();
 }

@@ -1,6 +1,0 @@
-/Users/konradkargul/Desktop/cpp/c_uni_project/build/CMakeFiles/BankingSystem.dir
-/Users/konradkargul/Desktop/cpp/c_uni_project/build/CMakeFiles/UnitTests.dir
-/Users/konradkargul/Desktop/cpp/c_uni_project/build/CMakeFiles/check.dir
-/Users/konradkargul/Desktop/cpp/c_uni_project/build/CMakeFiles/test.dir
-/Users/konradkargul/Desktop/cpp/c_uni_project/build/CMakeFiles/edit_cache.dir
-/Users/konradkargul/Desktop/cpp/c_uni_project/build/CMakeFiles/rebuild_cache.dir

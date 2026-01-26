@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking System - Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-container">
+            <div class="lang-switcher-login">
+                <select id="lang-selector-login" class="lang-selector" onchange="setLanguage(this.value)">
+                    <option value="en">🇬🇧 English</option>
+                    <option value="pl">🇵🇱 Polski</option>
+                </select>
+            </div>
+            <div class="login-header">
+                <i class="fas fa-university"></i>
+                <h1>BankSystem</h1>
+                <p>Select user profile</p>
+            </div>
+            <div class="login-options">
+                <button class="login-option" onclick="login('admin')">
+                    <i class="fas fa-user-shield"></i>
+                    <span class="login-role">Administrator</span>
+                    <span class="login-desc">Full system access</span>
+                </button>
+                <button class="login-option" onclick="login('company')">
+                    <i class="fas fa-building"></i>
+                    <span class="login-role">Company</span>
+                    <span class="login-desc">TechCorp Sp. z o.o.</span>
+                </button>
+                <button class="login-option" onclick="login('client')">
+                    <i class="fas fa-user"></i>
+                    <span class="login-role">Client</span>
+                    <span class="login-desc">Jan Kowalski</span>
+                </button>
+            </div>
+            <div class="login-footer">
+                <small>Demo version - no authentication</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="app-container" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-university"></i>
+                    <span>BankSystem</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-view="dashboard" data-roles="admin,company,client">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-view="banks" data-roles="admin">
+                    <i class="fas fa-building"></i>
+                    <span>Banki</span>
+                </a>
+                <a href="#" class="nav-item" data-view="clients" data-roles="admin">
+                    <i class="fas fa-users"></i>
+                    <span>Klienci</span>
+                </a>
+                <a href="#" class="nav-item" data-view="accounts" data-roles="admin,company,client">
+                    <i class="fas fa-wallet"></i>
+                    <span>Moje konta</span>
+                </a>
+                <a href="#" class="nav-item" data-view="transfers" data-roles="admin,company,client">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Przelewy</span>
+                </a>
+                <a href="#" class="nav-item" data-view="market" data-roles="admin,company,client">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Rynek</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="server-status">
+                    <span id="server-status-dot" class="status-dot"></span>
+                    <span id="server-status-text">Sprawdzanie...</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <h1 id="view-title">Dashboard</h1>
+                <div class="header-actions">
+                    <select id="lang-selector" class="lang-selector" onchange="setLanguage(this.value)">
+                        <option value="en">🇬🇧 EN</option>
+                        <option value="pl">🇵🇱 PL</option>
+                    </select>
+                    <button class="btn btn-icon" onclick="loadViewData(state.currentView)" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <div class="user-info" onclick="logout()">
+                        <span id="current-user-name">Admin</span>
+                        <i class="fas fa-user-circle"></i>
+                        <i class="fas fa-sign-out-alt logout-icon"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Dashboard View -->
+                <div id="dashboard-view" class="view active">
+                    <div class="stats-grid" id="stats-grid">
+                        <div class="stat-card" id="stat-card-banks" data-roles="admin">
+                            <div class="stat-icon banks">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="stat-banks">0</span>
+                                <span class="stat-label">Banków</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" id="stat-card-clients" data-roles="admin">
+                            <div class="stat-icon clients">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="stat-clients">0</span>
+                                <span class="stat-label">Klientów</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" id="stat-card-accounts" data-roles="admin,company,client">
+                            <div class="stat-icon accounts">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="stat-accounts">0</span>
+                                <span class="stat-label" id="stat-accounts-label">Kont</span>
+                            </div>
+                        </div>
+                        <div class="stat-card" id="stat-card-balance" data-roles="admin,company,client">
+                            <div class="stat-icon balance">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="stat-balance">0 PLN</span>
+                                <span class="stat-label" id="stat-balance-label">Suma sald</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="card banks-overview" id="dashboard-main-card">
+                            <div class="card-header" id="dashboard-main-header">
+                                <h3><i class="fas fa-building"></i> <span id="dashboard-main-title">Przegląd</span></h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="recent-banks" class="banks-grid">
+                                    <div class="loading">Ładowanie...</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card market-rates">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-line"></i> Kursy walut</h3>
+                                <span class="live-badge">NBP LIVE</span>
+                            </div>
+                            <div class="card-body" id="exchange-rates">
+                                <div class="loading">Ładowanie...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banks View -->
+                <div id="banks-view" class="view">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-building"></i> Lista banków</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="banks-list" class="banks-grid">
+                                <div class="loading">Ładowanie...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clients View -->
+                <div id="clients-view" class="view">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-users"></i> Lista klientów</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nazwa</th>
+                                            <th>Typ</th>
+                                            <th>Telefon</th>
+                                            <th>Email</th>
+                                            <th>Kont</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="clients-table-body">
+                                        <tr><td colspan="5" class="loading">Ładowanie...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accounts View -->
+                <div id="accounts-view" class="view">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-wallet"></i> Lista kont</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="accounts-list" class="accounts-grid">
+                                <div class="loading">Ładowanie...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transfers View -->
+                <div id="transfers-view" class="view">
+                    <div class="transfers-grid">
+                        <div class="card transfer-form-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-paper-plane"></i> Nowy przelew</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="transfer-form">
+                                    <div class="form-group">
+                                        <label for="transfer-from">Z konta:</label>
+                                        <select id="transfer-from" required>
+                                            <option value="">Wybierz konto</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="transfer-to">Na konto:</label>
+                                        <select id="transfer-to" required>
+                                            <option value="">Wybierz konto</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="transfer-amount">Kwota:</label>
+                                        <input type="number" id="transfer-amount" step="0.01" min="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="transfer-title">Tytuł:</label>
+                                        <input type="text" id="transfer-title" placeholder="Tytuł przelewu">
+                                    </div>
+                                    <button type="button" onclick="executeTransfer()" class="btn btn-primary btn-block">
+                                        <i class="fas fa-paper-plane"></i> Wykonaj przelew
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card quick-actions-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-bolt"></i> Szybkie operacje</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="deposit-form">
+                                    <h4>Wpłata</h4>
+                                    <div class="form-group">
+                                        <select id="deposit-account" required>
+                                            <option value="">Wybierz konto</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="deposit-amount" placeholder="Kwota" step="0.01" min="0.01" required>
+                                    </div>
+                                    <button type="button" onclick="executeDeposit()" class="btn btn-success btn-sm">
+                                        <i class="fas fa-plus"></i> Wpłać
+                                    </button>
+                                </form>
+                                <hr>
+                                <form id="withdraw-form">
+                                    <h4>Wypłata</h4>
+                                    <div class="form-group">
+                                        <select id="withdraw-account" required>
+                                            <option value="">Wybierz konto</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" id="withdraw-amount" placeholder="Kwota" step="0.01" min="0.01" required>
+                                    </div>
+                                    <button type="button" onclick="executeWithdraw()" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-minus"></i> Wypłać
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market View -->
+                <div id="market-view" class="view">
+                    <div class="market-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-exchange-alt"></i> Kursy walut NBP</h3>
+                                <span class="live-badge">LIVE</span>
+                            </div>
+                            <div class="card-body" id="market-rates">
+                                <div class="loading">Ładowanie kursów NBP...</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-bar"></i> Ceny akcji</h3>
+                                <select id="stock-currency" class="filter-select">
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="PLN" selected>PLN</option>
+                                    <option value="GBP">GBP</option>
+                                </select>
+                            </div>
+                            <div class="card-body" id="stocks-list">
+                                <div class="loading">Ładowanie...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

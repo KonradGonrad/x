@@ -1,31 +1,44 @@
 #include "Transfer.h"
+#include "Account.h"
 #include "Exceptions.h"
 #include <sstream>
+#include <iomanip>
 
-Transfer::Transfer(long id, double amount, AccountPtr sender, AccountPtr receiver)
+Transfer::Transfer(long id, double amount, Account* sender, Account* receiver)
     : Transaction(id, amount, TransactionType::TRANSFER),
       sender(sender), receiver(receiver) {}
 
 Transfer::~Transfer() {}
 
-AccountPtr Transfer::getSender() const { return sender; }
-AccountPtr Transfer::getReceiver() const { return receiver; }
+Account* Transfer::getSender() const {
+    return sender;
+}
 
-void Transfer::execute() {
-    if (!sender) throw ValidationException("Sender account is null");
-    if (!receiver) throw ValidationException("Receiver account is null");
-    if (sender->getBalance() < amount) {
-        throw InsufficientFundsException(amount, sender->getBalance());
+Account* Transfer::getReceiver() const {
+    return receiver;
+}
+
+bool Transfer::execute() {
+    if (!sender) {
+        throw InvalidOperationException("Brak konta nadawcy");
+    }
+    if (!receiver) {
+        throw InvalidOperationException("Brak konta odbiorcy");
     }
     sender->withdraw(amount);
     receiver->deposit(amount);
+    return true;
 }
 
 std::string Transfer::toString() const {
     std::ostringstream oss;
-    oss << "Transfer[id=" << id << ", amount=" << amount;
-    if (sender) oss << ", from=" << sender->getIban();
-    if (receiver) oss << ", to=" << receiver->getIban();
-    oss << "]";
+    auto timeinfo = std::localtime(&date);
+    char buffer[80];
+    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo);
+    
+    oss << "Transfer[id=" << id
+        << ", amount=" << amount
+        << ", date=" << buffer
+        << "]";
     return oss.str();
 }

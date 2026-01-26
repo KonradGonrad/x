@@ -1,42 +1,30 @@
-#ifndef MARKET_DATA_SERVICE_H
-#define MARKET_DATA_SERVICE_H
+#ifndef MARKETDATASERVICE_H
+#define MARKETDATASERVICE_H
 
+#include "Currency.h"
 #include <string>
 #include <map>
-#include <vector>
-#include <memory>
-#include "Currency.h"
-
-struct StockQuote {
-    std::string ticker;
-    double price;
-    double change;
-    double changePercent;
-    std::string lastUpdate;
-};
 
 class MarketDataService {
+private:
+    std::map<Currency, double> currentRates;    // Currency -> rate
+    std::map<std::string, double> stockPrices;  // Ticker -> price
+
 public:
     MarketDataService();
     ~MarketDataService();
 
-    StockQuote getStockQuote(const std::string& ticker) const;
-    void updateStockQuote(const std::string& ticker, double price);
-    bool hasStock(const std::string& ticker) const;
-    std::vector<std::string> getAllTickers() const;
+    // Exchange rates
+    double getRate(Currency currency) const;
+    void setRate(Currency currency, double rate);
 
-    double getExchangeRate(Currency from, Currency to) const;
-    void updateExchangeRate(Currency currency, double rateToPln);
-    std::map<Currency, double> getAllRates() const;
+    // Stock prices
+    double getStockPrice(const std::string& ticker) const;
+    void setStockPrice(const std::string& ticker, double price);
 
-    void simulateMarketMovement();
-
-private:
-    std::map<std::string, StockQuote> stockQuotes;
-    std::map<Currency, double> exchangeRates;
-    void initializeDefaultData();
+    // Utility
+    void loadDefaultData();
+    std::string toString() const;
 };
 
-using MarketDataServicePtr = std::shared_ptr<MarketDataService>;
-
-#endif
+#endif // MARKETDATASERVICE_H

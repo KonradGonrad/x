@@ -1,57 +1,52 @@
 #include "CurrencyExchange.h"
-#include "Exceptions.h"
+#include "CurrencyAccount.h"
+#include "MarketDataService.h"
 #include <sstream>
+#include <iomanip>
 
-std::map<std::pair<Currency, Currency>, double> CurrencyExchange::defaultRates = {
-    {{Currency::PLN, Currency::EUR}, 0.22},
-    {{Currency::PLN, Currency::USD}, 0.24},
-    {{Currency::EUR, Currency::PLN}, 4.50},
-    {{Currency::USD, Currency::PLN}, 4.15},
-    {{Currency::EUR, Currency::USD}, 1.08},
-    {{Currency::USD, Currency::EUR}, 0.93}
-};
-
-CurrencyExchange::CurrencyExchange(long id, CurrencyAccountPtr sourceAccount,
-                                   CurrencyAccountPtr targetAccount,
-                                   double sourceAmount, double exchangeRate)
-    : Transaction(id, sourceAmount, TransactionType::CURRENCY_EXCHANGE),
-      sourceAccount(sourceAccount), targetAccount(targetAccount),
-      sourceAmount(sourceAmount), exchangeRate(exchangeRate) {}
+CurrencyExchange::CurrencyExchange(long id, double amount, CurrencyAccount* account,
+                                   Currency targetCurrency, double usedRate,
+                                   MarketDataService* market)
+    : Transaction(id, amount, TransactionType::CURRENCY_EXCHANGE),
+      account(account), targetCurrency(targetCurrency),
+      usedRate(usedRate), market(market) {}
 
 CurrencyExchange::~CurrencyExchange() {}
 
-CurrencyAccountPtr CurrencyExchange::getSourceAccount() const { return sourceAccount; }
-CurrencyAccountPtr CurrencyExchange::getTargetAccount() const { return targetAccount; }
-double CurrencyExchange::getSourceAmount() const { return sourceAmount; }
-double CurrencyExchange::getTargetAmount() const { return sourceAmount * exchangeRate; }
-double CurrencyExchange::getExchangeRate() const { return exchangeRate; }
-
-double CurrencyExchange::getDefaultRate(Currency from, Currency to) {
-    if (from == to) return 1.0;
-    auto it = defaultRates.find({from, to});
-    if (it != defaultRates.end()) return it->second;
-    throw CurrencyExchangeException("No exchange rate available");
+CurrencyAccount* CurrencyExchange::getAccount() const {
+    return account;
 }
 
-void CurrencyExchange::execute() {
-    if (!sourceAccount) throw ValidationException("Source account is null");
-    if (!targetAccount) throw ValidationException("Target account is null");
-    
-    if (sourceAccount->getBalance() < sourceAmount) {
-        throw InsufficientFundsException(sourceAmount, sourceAccount->getBalance());
+Currency CurrencyExchange::getTargetCurrency() const {
+    return targetCurrency;
+}
+
+double CurrencyExchange::getUsedRate() const {
+    return usedRate;
+}
+
+MarketDataService* CurrencyExchange::getMarket() const {
+    return market;
+}
+
+bool CurrencyExchange::execute() {
+    if (!account || !market) {
+        return false;
     }
-    
-    double targetAmount = sourceAmount * exchangeRate;
-    
-    sourceAccount->withdraw(sourceAmount);
-    targetAccount->deposit(targetAmount);
-    sourceAccount->updateBalanceAfterExchange(sourceAmount);
+    account->updateBalanceAfterExchange(amount);
+    return true;
 }
 
 std::string CurrencyExchange::toString() const {
     std::ostringstream oss;
+    auto timeinfo = std::localtime(&date);
+    char buffer[80];
+    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo);
+    
     oss << "CurrencyExchange[id=" << id
-        << ", " << sourceAmount << " -> " << getTargetAmount()
-        << ", rate=" << exchangeRate << "]";
+        << ", amount=" << amount
+        << ", rate=" << usedRate
+        << ", date=" << buffer
+        << "]";
     return oss.str();
 }

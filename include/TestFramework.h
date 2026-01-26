@@ -1,155 +1,164 @@
-#ifndef TEST_FRAMEWORK_H
-#define TEST_FRAMEWORK_H
+/**
+ * @file TestFramework.h
+ * @brief Prosty framework do testow jednostkowych
+ * 
+ * Minimalny framework testowy bez zewnetrznych zaleznosci.
+ * Uzywa makr do asercji i grupowania testow.
+ */
+
+#ifndef TESTFRAMEWORK_H
+#define TESTFRAMEWORK_H
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <functional>
-#include <cmath>
 
+/**
+ * @struct TestResult
+ * @brief Przechowuje wynik pojedynczego testu
+ */
 struct TestResult {
-    std::string testName;
-    bool passed;
-    std::string message;
-    
-    TestResult() : testName(""), passed(false), message("") {}
-    TestResult(const std::string& name, bool p, const std::string& msg = "")
-        : testName(name), passed(p), message(msg) {}
+    std::string name;     ///< Nazwa testu
+    bool passed;          ///< Czy test zaliczony
+    std::string message;  ///< Komunikat bledu
 };
 
-class TestFramework {
-public:
-    static TestFramework& getInstance() {
-        static TestFramework instance;
-        return instance;
-    }
-
-    void addResult(const TestResult& result) {
-        results.push_back(result);
-    }
-
-    void runAll() {
-        for (size_t i = 0; i < testFunctions.size(); i++) {
-            testFunctions[i]();
-        }
-    }
-
-    void registerTest(std::function<void()> testFunc) {
-        testFunctions.push_back(testFunc);
-    }
-
-    void printSummary() const {
-        int passed = 0, failed = 0;
-        
-        std::cout << "\n========== TEST RESULTS ==========\n" << std::endl;
-        
-        for (size_t i = 0; i < results.size(); i++) {
-            const TestResult& r = results[i];
-            if (r.passed) {
-                std::cout << "[PASS] " << r.testName << std::endl;
-                passed++;
-            } else {
-                std::cout << "[FAIL] " << r.testName;
-                if (!r.message.empty()) {
-                    std::cout << " - " << r.message;
-                }
-                std::cout << std::endl;
-                failed++;
-            }
-        }
-        
-        std::cout << "\n===================================" << std::endl;
-        std::cout << "Total: " << (passed + failed) << " | ";
-        std::cout << "Passed: " << passed << " | ";
-        std::cout << "Failed: " << failed << std::endl;
-        
-        if (failed == 0) {
-            std::cout << "\n*** ALL TESTS PASSED! ***" << std::endl;
-        }
-    }
-
-    void clear() {
-        results.clear();
-        testFunctions.clear();
-    }
-
-    int getFailedCount() const {
-        int failed = 0;
-        for (size_t i = 0; i < results.size(); i++) {
-            if (!results[i].passed) failed++;
-        }
-        return failed;
-    }
-
+/**
+ * @class TestRunner
+ * @brief Uruchamia testy i zbiera wyniki
+ */
+class TestRunner {
 private:
-    TestFramework() {}
-    std::vector<TestResult> results;
-    std::vector<std::function<void()>> testFunctions;
+    std::vector<TestResult> results;  ///< Wyniki testow
+    int passed = 0;                   ///< Liczba zaliczonych
+    int failed = 0;                   ///< Liczba niezaliczonych
+
+public:
+    /**
+     * @brief Dodaje wynik testu
+     * @param name Nazwa testu
+     * @param success Czy test zaliczony
+     * @param msg Komunikat bledu
+     */
+    void addResult(const std::string& name, bool success, const std::string& msg = "") {
+        TestResult result;
+        result.name = name;
+        result.passed = success;
+        result.message = msg;
+        results.push_back(result);
+        if (success) {
+            passed++;
+        } else {
+            failed++;
+        }
+    }
+
+    /**
+     * @brief Wyswietla podsumowanie testow
+     */
+    void printSummary() const {
+        std::cout << "\n============================================================\n";
+        std::cout << "PODSUMOWANIE TESTOW\n";
+        std::cout << "============================================================\n";
+        
+        for (size_t i = 0; i < results.size(); i++) {
+            const TestResult& result = results[i];
+            if (result.passed) {
+                std::cout << "[PASS] ";
+            } else {
+                std::cout << "[FAIL] ";
+            }
+            std::cout << result.name;
+            if (!result.message.empty()) {
+                std::cout << " - " << result.message;
+            }
+            std::cout << "\n";
+        }
+        
+        std::cout << "------------------------------------------------------------\n";
+        std::cout << "Zaliczone: " << passed << "/" << (passed + failed) << "\n";
+        std::cout << "Niezaliczone: " << failed << "/" << (passed + failed) << "\n";
+        std::cout << "============================================================\n";
+    }
+
+    /**
+     * @brief Zwraca true jesli wszystkie testy przeszly
+     */
+    bool allPassed() const {
+        return failed == 0;
+    }
+
+    /**
+     * @brief Zwraca liczbe zaliczonych
+     */
+    int getPassedCount() const { return passed; }
+
+    /**
+     * @brief Zwraca liczbe niezaliczonych
+     */
+    int getFailedCount() const { return failed; }
 };
 
-// Makra testowe
+// ============================================================================
+// Makra do testow
+// ============================================================================
+
+/**
+ * @brief Makro sprawdzajace warunek
+ */
 #define TEST_ASSERT(condition, testName) \
     do { \
-        TestResult result(testName, (condition)); \
-        if (!(condition)) { \
-            result.message = "Assertion failed"; \
+        if (condition) { \
+            runner.addResult(testName, true); \
+        } else { \
+            runner.addResult(testName, false, "Warunek niespelniony: " #condition); \
         } \
-        TestFramework::getInstance().addResult(result); \
     } while(0)
 
+/**
+ * @brief Makro sprawdzajace rownosc
+ */
 #define TEST_EQUAL(expected, actual, testName) \
     do { \
-        bool passed = ((expected) == (actual)); \
-        TestResult result(testName, passed); \
-        if (!passed) { \
-            result.message = "Expected different value"; \
+        if ((expected) == (actual)) { \
+            runner.addResult(testName, true); \
+        } else { \
+            runner.addResult(testName, false, "Oczekiwano: " + std::to_string(expected) + ", otrzymano: " + std::to_string(actual)); \
         } \
-        TestFramework::getInstance().addResult(result); \
     } while(0)
 
-#define TEST_DOUBLE_EQUAL(expected, actual, epsilon, testName) \
-    do { \
-        bool passed = (std::abs((expected) - (actual)) < (epsilon)); \
-        TestResult result(testName, passed); \
-        if (!passed) { \
-            result.message = "Values differ by more than epsilon"; \
-        } \
-        TestFramework::getInstance().addResult(result); \
-    } while(0)
-
+/**
+ * @brief Makro sprawdzajace czy wyjatek zostal rzucony
+ */
 #define TEST_THROWS(exceptionType, expression, testName) \
     do { \
-        bool caught = false; \
+        bool exceptionThrown = false; \
         try { \
             expression; \
         } catch (const exceptionType&) { \
-            caught = true; \
+            exceptionThrown = true; \
         } catch (...) { \
-            caught = false; \
+            runner.addResult(testName, false, "Nieoczekiwany wyjatek"); \
+            break; \
         } \
-        TestResult result(testName, caught); \
-        if (!caught) { \
-            result.message = "Expected exception not thrown"; \
+        if (exceptionThrown) { \
+            runner.addResult(testName, true); \
+        } else { \
+            runner.addResult(testName, false, "Wyjatek nie zostal rzucony"); \
         } \
-        TestFramework::getInstance().addResult(result); \
     } while(0)
 
-#define TEST_NO_THROW(expression, testName) \
+/**
+ * @brief Makro do testowania stringow
+ */
+#define TEST_STRING_EQUAL(expected, actual, testName) \
     do { \
-        bool noThrow = true; \
-        try { \
-            expression; \
-        } catch (...) { \
-            noThrow = false; \
+        if ((expected) == (actual)) { \
+            runner.addResult(testName, true); \
+        } else { \
+            runner.addResult(testName, false, std::string("Oczekiwano: '") + std::string(expected) + "', otrzymano: '" + std::string(actual) + "'"); \
         } \
-        TestResult result(testName, noThrow); \
-        if (!noThrow) { \
-            result.message = "Unexpected exception thrown"; \
-        } \
-        TestFramework::getInstance().addResult(result); \
     } while(0)
 
-#define RUN_TEST(testFunc) \
-    TestFramework::getInstance().registerTest(testFunc)
-
-#endif
+#endif // TESTFRAMEWORK_H

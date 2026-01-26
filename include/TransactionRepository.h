@@ -1,21 +1,40 @@
-#ifndef TRANSACTION_REPOSITORY_H
-#define TRANSACTION_REPOSITORY_H
+#ifndef TRANSACTIONREPOSITORY_H
+#define TRANSACTIONREPOSITORY_H
 
-#include "Repository.h"
-#include "Transaction.h"
+#include <vector>
+#include <queue>
+#include <string>
 
-class TransactionRepository : public Repository<Transaction, long> {
+class Transaction;
+class Account;
+
+class TransactionRepository {
+private:
+    std::vector<Transaction*> completedTransactions;
+    std::queue<Transaction*> pendingTransactions;
+
 public:
-    std::vector<TransactionPtr> findByType(TransactionType type) const;
-    std::vector<TransactionPtr> findByDateRange(std::time_t from, std::time_t to) const;
-    std::vector<TransactionPtr> findByAmountRange(double minAmount, double maxAmount) const;
-    double getTotalAmount() const;
-    double getTotalAmountByType(TransactionType type) const;
+    TransactionRepository();
+    ~TransactionRepository();
 
-protected:
-    long getKey(const TransactionPtr& item) const override {
-        return item->getId();
-    }
+    // Repository operations (UML methods)
+    void save(Transaction* transaction);
+    std::vector<Transaction*> getHistory(Account* account) const;
+    std::queue<Transaction*> getPending() const;
+
+    // Completed transactions (list)
+    void addCompletedTransaction(Transaction* transaction);
+    const std::vector<Transaction*>& getCompletedTransactions() const;
+    size_t getCompletedCount() const;
+
+    // Pending transactions (queue)
+    void addPendingTransaction(Transaction* transaction);
+    Transaction* getNextPendingTransaction();
+    bool hasPendingTransactions() const;
+    size_t getPendingCount() const;
+
+    // Utility
+    std::string toString() const;
 };
 
-#endif
+#endif // TRANSACTIONREPOSITORY_H
